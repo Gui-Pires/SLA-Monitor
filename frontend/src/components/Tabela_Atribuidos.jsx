@@ -10,16 +10,6 @@ function Tabela({ titulo, dados, extraClass = "" }) {
         240: "4 horas",   // Severidade 4
         480: "8 horas",   // Severidade 5
         1920: "24 horas", // Severidade 6
-        // Adicione outros códigos conforme aparecerem no seu console.log
-    }
-
-    const MAPA_SLA_VALUES = {
-        15: 15,
-        30: 30,
-        120: 2,
-        240: 4,
-        480: 8,
-        1920: 24
     }
 
     const URL_OC = 'https://addit.crm2.dynamics.com/main.aspx?appid=c3bc7977-3c63-eb11-b0b0-000d3ac07dce&pagetype=entityrecord&etn=incident&id='
@@ -38,8 +28,9 @@ function Tabela({ titulo, dados, extraClass = "" }) {
     if (!dados || dados.length === 0 || dados == null) {
         return (
             <div className={"row my-3 border rounded rounded-4 " + extraClass}>
-                <h3 className="my-2">{titulo}</h3>
-                <p className="text-muted">Nenhum registro encontrado.</p>
+                <div className="col p-0">
+                    <h4 className="text-start my-2 mx-3">{titulo}</h4>
+                </div>
             </div>
         )
     }
@@ -55,21 +46,21 @@ function Tabela({ titulo, dados, extraClass = "" }) {
         return Math.max(0, (restante / total) * 100)
     }
 
-    function calcularProgressoNaoAgendado(inicio, prioritycode) {
-        const inicioDate = new Date(inicio)
-        let inicioDateCalc = new Date(inicio)
-        const sla_type = prioritycode <= 30 ? 'm' : 'h'
-        const sla_value = sla_type === 'm'
-            ? inicioDateCalc.setMinutes(inicioDateCalc.getMinutes() +  MAPA_SLA_VALUES[prioritycode]) 
-            : inicioDateCalc.setHours(inicioDateCalc.getHours() +  MAPA_SLA_VALUES[prioritycode])
+    // function calcularProgressoNaoAgendado(inicio, prioritycode) {
+    //     const inicioDate = new Date(inicio)
+    //     let inicioDateCalc = new Date(inicio)
+    //     const sla_type = prioritycode <= 30 ? 'm' : 'h'
+    //     const sla_value = sla_type === 'm'
+    //         ? inicioDateCalc.setMinutes(inicioDateCalc.getMinutes() +  MAPA_SLA_VALUES[prioritycode]) 
+    //         : inicioDateCalc.setHours(inicioDateCalc.getHours() +  MAPA_SLA_VALUES[prioritycode])
         
-        const total = inicioDateCalc - inicioDate
-        const res_sla = sla_value - now
+    //     const total = inicioDateCalc - inicioDate
+    //     const res_sla = sla_value - now
 
-        if (res_sla <= 0) return 0 // SLA estourada
+    //     if (res_sla <= 0) return 0 // SLA estourada
 
-        return Math.max(0, (res_sla / total) * 100)
-    }
+    //     return Math.max(0, (res_sla / total) * 100)
+    // }
 
     function timer(fimDate) {
         const fim = new Date(fimDate)

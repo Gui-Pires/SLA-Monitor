@@ -17,8 +17,6 @@ function App() {
     const [filterUser, setFilterUser] = useState('')
     const [filterTeam, setFilterTeam] = useState('')
 
-    const [token, setToken] = useState(null)
-
     // Now
     const [now, setNow] = useState(new Date())
 
@@ -69,26 +67,7 @@ function App() {
         return atualizados
     }
 
-    // const getToken = async () => {
-    //     try {
-    //         // Agora chama o seu Node, que não tem restrição de CORS para o Microsoft Login
-    //         const response = await axios.get('http://noteadd1150:3001/api/token')
-
-    //         const novoToken = response.data.access_token
-    //         setToken(novoToken)
-    //         return novoToken
-    //     } catch (error) {
-    //         console.error("Erro ao resgatar token via Proxy:", error)
-    //     }
-    // }
-
     const getData = async () => {
-        // if (!token) return // Não faz nada se o token ainda não existir
-        // const headers = {
-        //     'Authorization': `Bearer ${token}`,
-        //     'Accept': 'application/json'
-        // }
-
         try {
             // Chamada única para o seu novo endpoint protegido
             const response = await axios.get('http://noteadd1150:3001/api/sla-data')
@@ -115,15 +94,6 @@ function App() {
         }
     }
 
-    // useEffect(() => {
-    //     getToken()
-    //     const interval = setInterval(() => {
-    //         getToken()
-    //     }, 2500000)
-
-    //     return () => clearInterval(interval)
-    // }, [])
-
     useEffect(() => {
         getData()
 
@@ -132,7 +102,7 @@ function App() {
         }, 5000)
 
         return () => clearInterval(interval)
-    }, [token])
+    }, [])
 
     function toggleTheme() {
         const bodyElem = document.getElementsByTagName('body')[0]

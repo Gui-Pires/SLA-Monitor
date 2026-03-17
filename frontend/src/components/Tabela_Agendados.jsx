@@ -20,8 +20,9 @@ function Tabela({ titulo, dados, extraClass = "" }) {
     if (!dados || dados.length === 0 || dados == null) {
         return (
             <div className={"row my-3 border rounded rounded-4 " + extraClass}>
-                <h3 className="my-2">{titulo}</h3>
-                <p className="text-muted">Nenhum registro encontrado.</p>
+                <div className="col p-0">
+                    <h4 className="text-start my-2 mx-3">{titulo}</h4>
+                </div>
             </div>
         )
     }
