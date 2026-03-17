@@ -1,0 +1,88 @@
+:root {
+    --bg-color-prefer: #162a9c;
+}
+
+.logo-image {
+    height: 50px;
+}
+
+.logo-image-icon {
+    width: 32px;
+}
+
+.session-color {
+    opacity: 0;
+}
+
+.color-personate {
+    width: 20px;
+    height: 15px;
+}
+
+.sla-over td {
+    /* color: rgba(220, 53, 69, .8) !important; */
+    text-decoration: line-through 2.5px;
+    text-decoration-color: rgba(220, 53, 69, .8);
+    /* background-color: rgb(236, 67, 67); */
+    animation: alert-sla-over 1s infinite alternate;
+}
+
+.sla-over td:last-child {
+    text-decoration: none;
+    color: red;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: .8em;
+}
+
+.td-collapse {
+    padding: 0 !important;
+}
+
+body[data-bs-theme="light"] {
+    .text-progress {
+        color: rgb(0, 0, 0) !important;
+    }
+
+    .session-table, .navbar, #btn-theme, .modal-header, .btn-close {
+        background-color: var(--bg-color-prefer) !important;
+        /* background-color: #24aafb !important; */
+        color: white !important;
+    }
+
+    .session-color {
+        opacity: 1;
+    }
+}
+
+body {
+    transition: all 500ms;
+}
+
+.bg-blur {
+    background-color: rgba(255, 255, 255, .2);
+}
+
+a {
+    text-decoration: none;
+}
+
+.header-table {
+    background-color: #fe7726;
+}
+
+.animation-danger {
+    animation: alert-danger infinite alternate 500ms;
+}
+
+@keyframes alert-danger {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes alert-sla-over {
+    to {
+        background-color: rgba(220, 53, 69, .7);
+    }
+}
