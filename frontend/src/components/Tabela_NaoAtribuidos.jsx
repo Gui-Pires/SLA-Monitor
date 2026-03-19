@@ -113,7 +113,7 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                     </thead>
                     <tbody>
                         {dados.map((item, i) => (
-                            <tr key={item.ticketnumber} className={calcularProgresso(item.modifiedon || item.createdon, getFailureSLA(item.nextsla)) === 0 ? 'sla-over' : ''}>
+                            <tr key={item.ticketnumber} className={calcularProgresso(item.createdon, getFailureSLA(item.nextsla)) === 0 ? 'sla-over' : ''}>
                                 <td>
                                     <a className="text-decoration-none" href={URL_OC + item.incidentid} target="_blank" rel="noopener noreferrer">{item.ticketnumber}</a>
                                     <button type="button" className="btn float-end p-0 border-none" data-bs-toggle="modal" data-bs-target={`#${item.ticketnumber}-modal`}>
@@ -132,8 +132,8 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                                 </td>
                                 <td>{MAPA_SLA[item.prioritycode]}</td>
                                 <td>
-                                    {calcularProgresso(item.modifiedon || item.createdon, getFailureSLA(item.nextsla)) === 0 ? 'Estourou SLA' :
-                                        <Progressbar progress={calcularProgresso(item.modifiedon || item.createdon, getFailureSLA(item.nextsla))} />
+                                    {calcularProgresso(item.createdon, getFailureSLA(item.nextsla)) === 0 ? 'Estourou SLA' :
+                                        <Progressbar progress={calcularProgresso(item.createdon, getFailureSLA(item.nextsla))} />
                                     }
                                 </td>
                             </tr>

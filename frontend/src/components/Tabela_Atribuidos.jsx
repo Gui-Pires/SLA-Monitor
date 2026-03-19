@@ -46,22 +46,6 @@ function Tabela({ titulo, dados, extraClass = "" }) {
         return Math.max(0, (restante / total) * 100)
     }
 
-    // function calcularProgressoNaoAgendado(inicio, prioritycode) {
-    //     const inicioDate = new Date(inicio)
-    //     let inicioDateCalc = new Date(inicio)
-    //     const sla_type = prioritycode <= 30 ? 'm' : 'h'
-    //     const sla_value = sla_type === 'm'
-    //         ? inicioDateCalc.setMinutes(inicioDateCalc.getMinutes() +  MAPA_SLA_VALUES[prioritycode]) 
-    //         : inicioDateCalc.setHours(inicioDateCalc.getHours() +  MAPA_SLA_VALUES[prioritycode])
-        
-    //     const total = inicioDateCalc - inicioDate
-    //     const res_sla = sla_value - now
-
-    //     if (res_sla <= 0) return 0 // SLA estourada
-
-    //     return Math.max(0, (res_sla / total) * 100)
-    // }
-
     function timer(fimDate) {
         const fim = new Date(fimDate)
         let restante = fim - now
@@ -127,7 +111,7 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                     </thead>
                     <tbody>
                         {dados.map((item, i) => (
-                            <tr key={item.ticketnumber} className={calcularProgresso(item.modifiedon || item.createdon, getFailureSLA(item.nextsla) || item.prioritycode) === 0 ? 'sla-over' : ''}>
+                            <tr key={item.ticketnumber} className={calcularProgresso(item.createdon, getFailureSLA(item.nextsla) || item.prioritycode) === 0 ? 'sla-over' : ''}>
                                 <td>
                                     <a className="text-decoration-none" href={URL_OC + item.incidentid} target="_blank" rel="noopener noreffer">{item.ticketnumber}</a>
                                     <button type="button" className="btn float-end p-0 border-none" data-bs-toggle="modal" data-bs-target={`#${item.ticketnumber}-modal`}>
@@ -146,8 +130,8 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                                 </td>
                                 <td>{MAPA_SLA[item.prioritycode]}</td>
                                 <td>
-                                    {calcularProgresso(item.modifiedon || item.createdon, getFailureSLA(item.nextsla) || item.prioritycode) === 0 ? 'Estourou SLA' :
-                                        <Progressbar progress={(calcularProgresso(item.modifiedon || item.createdon, getFailureSLA(item.nextsla) || item.prioritycode))} />
+                                    {calcularProgresso(item.createdon, getFailureSLA(item.nextsla) || item.prioritycode) === 0 ? 'Estourou SLA' :
+                                        <Progressbar progress={(calcularProgresso(item.createdon, getFailureSLA(item.nextsla) || item.prioritycode))} />
                                     }
                                 </td>
                             </tr>
