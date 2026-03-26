@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Progressbar from './Progressbar'
+import ModalOC from "./Modal"
 
 function Tabela({ titulo, dados, extraClass = "" }) {
     const [now, setNow] = useState(new Date())
@@ -23,6 +24,8 @@ function Tabela({ titulo, dados, extraClass = "" }) {
             setNow(new Date())
         }, 1000)
 
+        console.log(dados)
+
         return () => clearInterval(interval)
     }, [])
 
@@ -35,32 +38,6 @@ function Tabela({ titulo, dados, extraClass = "" }) {
             </div>
         )
     }
-
-    // function calcularProgressoNaoAgendado(inicio, prioritycode) {
-    //     const inicioDate = new Date(inicio)
-    //     let inicioDateCalc = new Date(inicio)
-    //     const sla_type = prioritycode <= 30 ? 'm' : 'h'
-    //     const sla_value = sla_type === 'm'
-    //         ? inicioDateCalc.setMinutes(inicioDateCalc.getMinutes() +  MAPA_SLA_VALUES[prioritycode]) 
-    //         : inicioDateCalc.setHours(inicioDateCalc.getHours() +  MAPA_SLA_VALUES[prioritycode])
-        
-    //     const total = inicioDateCalc - inicioDate
-    //     const res_sla = sla_value - now
-
-    //     if (res_sla <= 0) return 0 // SLA estourada
-
-    //     return Math.max(0, (res_sla / total) * 100)
-    // }
-
-    // function getDataFuturaNaoAgendado(inicio, prioritycode) {
-    //     let inicioDateCalc = new Date(inicio)
-    //     const sla_type = prioritycode <= 30 ? 'm' : 'h'
-    //     const sla_value = sla_type === 'm'
-    //         ? inicioDateCalc.setMinutes(inicioDateCalc.getMinutes() +  MAPA_SLA_VALUES[prioritycode]) 
-    //         : inicioDateCalc.setHours(inicioDateCalc.getHours() +  MAPA_SLA_VALUES[prioritycode])
-        
-    //     return sla_value
-    // }
 
     function timer(fimDate) {
         const fim = new Date(fimDate)
@@ -122,7 +99,7 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                             <tr key={item.ticketnumber} className={calcularProgresso(item.modifiedon || item.createdon, item.failuretime) === 0 ? 'sla-over' : ''}>
                                 <td>
                                     <a className="text-decoration-none" href={URL_OC + item.incidentid} target="_blank" rel="noopener noreffer">{item.ticketnumber}</a>
-                                    <button type="button" className="btn float-end p-0 border-none" data-bs-toggle="modal" data-bs-target={`#${item.ticketnumber}-modal`}>
+                                    <button type="button" className="btn float-end p-0 border-none" data-bs-toggle="modal" data-bs-target={`#es-modal-${i}`}>
                                         <i className="bi bi-info-circle-fill"></i>
                                     </button>
                                 </td>
@@ -147,25 +124,26 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                     </tbody>
                 </table>
                 {dados.map((item, i) => (
-                    <div key={i} className="modal fade" id={`${item.ticketnumber}-modal`} tabIndex="-1" aria-labelledby="modal" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h1 className="modal-title fs-5">{item.ticketnumber} | {item.title}</h1>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body text-start">
-                                    <h6 className="text-primary-emphasis text-end">Tempo restante: {timer(item.failuretime)}</h6>
-                                    {String(item.description).split(/\n/gi).map((item, i) => (
-                                        <p key={i}>{item}</p>
-                                    ))}
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    // <div key={i} className="modal fade" id={`${item.ticketnumber}-modal`} tabIndex="-1" aria-labelledby="modal" aria-hidden="true">
+                    //     <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                    //         <div className="modal-content">
+                    //             <div className="modal-header">
+                    //                 <h1 className="modal-title fs-5">{item.ticketnumber} | {item.title}</h1>
+                    //                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    //             </div>
+                    //             <div className="modal-body text-start">
+                    //                 <h6 className="text-primary-emphasis text-end">Tempo restante: {timer(item.failuretime)}</h6>
+                    //                 {String(item.description).split(/\n/gi).map((item, i) => (
+                    //                     <p key={i}>{item}</p>
+                    //                 ))}
+                    //             </div>
+                    //             <div className="modal-footer">
+                    //                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    // </div>
+                    <ModalOC key={i} item={item} index={i} type={'es'} />
                 ))}
             </div>
         </div>

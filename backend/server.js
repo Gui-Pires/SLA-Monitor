@@ -66,9 +66,9 @@ app.get('/api/sla-data', async (req, res) => {
 
         // As mesmas consultas que estavam no front, agora protegidas aqui
         const [resNA_A, resAgen, resAllActives, slaKPI] = await Promise.all([
-            axios.get(`${DYNAMICS_URL}/incidents?$expand=owningteam($select=name),owninguser($select=fullname,domainname),customerid_account($select=name)&$filter=statecode eq 0 and statuscode ne 4 and statuscode ne 5 and firstresponsesent eq false and new_tipos ne 100000005 and new_preventiva eq false`, { headers }),
-            axios.get(`${DYNAMICS_URL}/incidents?$expand=owningteam($select=name),owninguser($select=fullname,domainname),customerid_account($select=name)&$filter=new_preventiva eq true and statecode eq 0 and add_datadoagendamento ne null and new_tipos ne 100000005&$orderby=add_datadoagendamento`, { headers }),
-            axios.get(`${DYNAMICS_URL}/incidents?$expand=owningteam($select=name),owninguser($select=fullname,domainname),customerid_account($select=name)&$filter=statecode eq 0&$orderby=createdon desc`, { headers }),
+            axios.get(`${DYNAMICS_URL}/incidents?$expand=owningteam($select=name),owninguser($select=fullname,domainname),customerid_account($select=name),responsiblecontactid($select=fullname)&$filter=statecode eq 0 and statuscode ne 4 and statuscode ne 5 and firstresponsesent eq false and new_tipos ne 100000005 and new_preventiva eq false`, { headers }),
+            axios.get(`${DYNAMICS_URL}/incidents?$expand=owningteam($select=name),owninguser($select=fullname,domainname),customerid_account($select=name),responsiblecontactid($select=fullname)&$filter=new_preventiva eq true and statecode eq 0 and add_datadoagendamento ne null and new_tipos ne 100000005&$orderby=add_datadoagendamento`, { headers }),
+            axios.get(`${DYNAMICS_URL}/incidents?$expand=owningteam($select=name),owninguser($select=fullname,domainname),customerid_account($select=name),responsiblecontactid($select=fullname)&$filter=statecode eq 0&$orderby=createdon desc`, { headers }),
             axios.get(`${DYNAMICS_URL}/slakpiinstances?$select=failuretime&$expand=regarding_new_atribuicaoeescalacao($select=_new_ocorrencia_value,_new_atribuidoa_value,_new_equipe_value,new_prioritycodesla,createdon)&$filter=regarding_new_atribuicaoeescalacao/new_primeiraresposta eq false and status ne 4`, { headers })
         ])
 

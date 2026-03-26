@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Progressbar from './Progressbar'
+import ModalOC from "./Modal"
 
 function Tabela({ titulo, dados, extraClass = "" }) {
     const [now, setNow] = useState(new Date())
@@ -114,7 +115,7 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                             <tr key={item.ticketnumber} className={calcularProgresso(item.createdon, getFailureSLA(item.nextsla) || item.prioritycode) === 0 ? 'sla-over' : ''}>
                                 <td>
                                     <a className="text-decoration-none" href={URL_OC + item.incidentid} target="_blank" rel="noopener noreffer">{item.ticketnumber}</a>
-                                    <button type="button" className="btn float-end p-0 border-none" data-bs-toggle="modal" data-bs-target={`#${item.ticketnumber}-modal`}>
+                                    <button type="button" className="btn float-end p-0 border-none" data-bs-toggle="modal" data-bs-target={`#at-modal-${i}`}>
                                         <i className="bi bi-info-circle-fill"></i>
                                     </button>
                                 </td>
@@ -139,25 +140,26 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                     </tbody>
                 </table>
                 {dados.map((item, i) => (
-                    <div key={i} className="modal fade" id={`${item.ticketnumber}-modal`} tabIndex="-1" aria-labelledby="modal" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h1 className="modal-title fs-5">{item.ticketnumber} | {item.title}</h1>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body text-start">
-                                    <h6 className="text-primary-emphasis text-end">Tempo restante: {timer(getFailureSLA(item.nextsla))}</h6>
-                                    {String(item.description).split(/\n/gi).map((item, i) => (
-                                        <p key={i}>{item}</p>
-                                    ))}
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    // <div key={i} className="modal fade" id={`${item.ticketnumber}-modal`} tabIndex="-1" aria-labelledby="modal" aria-hidden="true">
+                    //     <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                    //         <div className="modal-content">
+                    //             <div className="modal-header">
+                    //                 <h1 className="modal-title fs-5">{item.ticketnumber} | {item.title}</h1>
+                    //                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    //             </div>
+                    //             <div className="modal-body text-start">
+                    //                 <h6 className="text-primary-emphasis text-end">Tempo restante: {timer(getFailureSLA(item.nextsla))}</h6>
+                    //                 {String(item.description).split(/\n/gi).map((item, i) => (
+                    //                     <p key={i}>{item}</p>
+                    //                 ))}
+                    //             </div>
+                    //             <div className="modal-footer">
+                    //                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    // </div>
+                    <ModalOC key={i} item={item} index={i} type={'at'} />
                 ))}
             </div>
         </div>
