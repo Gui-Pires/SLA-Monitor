@@ -1,7 +1,16 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function ModalOC({ item, index, type }) {
     const [now, setNow] = useState(new Date())
+
+    // atualiza "now" a cada 1 segundo
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNow(new Date())
+        }, 1000)
+
+        return () => clearInterval(interval)
+    }, [])
 
     const MAP_VALUE_TIMER = {
         'na': getFailureSLA(item.nextsla),

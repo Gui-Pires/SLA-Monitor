@@ -1,5 +1,3 @@
-// import { useState, useEffect } from "react"
-
 export default function SLAProgress({ progress, timer }) {
     function bgColor(valor) {
         if (valor <= 30) {

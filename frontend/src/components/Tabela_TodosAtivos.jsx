@@ -13,8 +13,6 @@ function Tabela({ titulo, dados, extraClass = "" }) {
             setNow(new Date());
         }, 1000)
 
-        console.log(titulo, dados)
-
         return () => clearInterval(interval)
     }, [])
 

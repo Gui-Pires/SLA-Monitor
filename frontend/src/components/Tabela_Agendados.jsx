@@ -54,33 +54,6 @@ function Tabela({ titulo, dados, extraClass = "" }) {
         return `${day}/${month}/${year} ${hours}:${minutes}`
     }
 
-    function timer(fimDate) {
-        const fim = new Date(fimDate)
-        let restante = fim - now
-
-        if (restante <= 0) return "Estourado" // SLA estourada
-
-        const resDate = new Date(restante)
-
-        const [days, hours, minutes, seconds] = [resDate.getUTCDate() - 1, resDate.getUTCHours(), resDate.getUTCMinutes(), resDate.getUTCSeconds()]
-
-        let formatTime = ``
-        if (days > 0) {
-            formatTime += `${days}d`
-        }
-        if (hours > 0) {
-            formatTime += ` ${hours}h`
-        }
-        if (minutes > 0) {
-            formatTime += ` ${minutes}m`
-        }
-        if (days <= 0 && hours <= 0) {
-            formatTime += ` ${seconds}s`
-        }
-
-        return formatTime
-    }
-
     return (
         <div className={"session-table row my-3 border rounded rounded-4 overflow-hidden " + extraClass}>
             <div className="col table-responsive p-0">
@@ -108,14 +81,13 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                                     </button>
                                 </td>
                                 <td>
-                                    {item.owningteam ? item.owningteam.name 
-                                        : item.owninguser 
-                                        ? <a className="text-decoration-none" href={URL_US + item.owninguser.domainname + '&message= Essa ' + item.ticketnumber + ' está na sua fila...'} target="_blank" rel="noopener noreffer">{item.owninguser.fullname}</a>
-                                        : item._owninguser_value}
+                                    {item.owningteam?.name || 
+                                        <a className="text-decoration-none" href={URL_US + item.owninguser.domainname  + '&message= Essa ' + item.ticketnumber + ' está na sua fila...'} target="_blank" rel="noopener noreffer">{item.owninguser.fullname}</a>
+                                    }
                                 </td>
                                 <td>
                                     <a className="text-decoration-none" href={URL_CL + item._customerid_value} target="_blank" rel="noopener noreferrer">
-                                        {item.customerid_account ? item.customerid_account.name : item._customerid_value}
+                                        {item.customerid_account?.name}
                                     </a>
                                 </td>
                                 <td>{formatDate(item.add_datadoagendamento)}</td>
@@ -129,25 +101,6 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                     </tbody>
                 </table>
                 {dados.map((item, i) => (
-                    // <div key={i} className="modal fade" id={`${item.ticketnumber}-modal`} tabIndex="-1" aria-labelledby="modal" aria-hidden="true">
-                    //     <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-                    //         <div className="modal-content">
-                    //             <div className="modal-header">
-                    //                 <h1 className="modal-title fs-5">{item.ticketnumber} | {item.title}</h1>
-                    //                 <button type="button" className="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
-                    //             </div>
-                    //             <div className="modal-body text-start">
-                    //                 <h6 className="text-primary-emphasis text-end">Tempo restante: {timer(item.add_datadoagendamento)}</h6>
-                    //                 {String(item.description).split(/\n/gi).map((item, i) => (
-                    //                     <p key={i}>{item}</p>
-                    //                 ))}
-                    //             </div>
-                    //             <div className="modal-footer">
-                    //                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    //             </div>
-                    //         </div>
-                    //     </div>
-                    // </div>
                     <ModalOC key={i} item={item} index={i} type={'ag'} />
                 ))}
             </div>

@@ -24,8 +24,6 @@ function Tabela({ titulo, dados, extraClass = "" }) {
             setNow(new Date())
         }, 1000)
 
-        console.log(dados)
-
         return () => clearInterval(interval)
     }, [])
 
@@ -37,33 +35,6 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                 </div>
             </div>
         )
-    }
-
-    function timer(fimDate) {
-        const fim = new Date(fimDate)
-        let restante = fim - now
-
-        if (restante <= 0) return "Estourado" // SLA estourada
-
-        const resDate = new Date(restante)
-
-        const [days, hours, minutes, seconds] = [resDate.getUTCDate() - 1, resDate.getUTCHours(), resDate.getUTCMinutes(), resDate.getUTCSeconds()]
-
-        let formatTime = ``
-        if (days > 0) {
-            formatTime += `${days}d`
-        }
-        if (hours > 0) {
-            formatTime += ` ${hours}h`
-        }
-        if (minutes > 0) {
-            formatTime += ` ${minutes}m`
-        }
-        if (days <= 0 && hours <= 0) {
-            formatTime += ` ${seconds}s`
-        }
-
-        return formatTime
     }
 
     function calcularProgresso(inicio, fim) {
@@ -104,13 +75,13 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                                     </button>
                                 </td>
                                 <td>
-                                    {item.owningteam ? item.owningteam.name 
-                                        : item.owninguser ? <a className="text-decoration-none" href={URL_US + item.owninguser.domainname  + '&message= Essa ' + item.ticketnumber + ' está na sua fila...'} target="_blank" rel="noopener noreffer">{item.owninguser.fullname}</a>
-                                        : item._owninguser_value}
+                                    {item.owningteam?.name || 
+                                        <a className="text-decoration-none" href={URL_US + item.owninguser.domainname  + '&message= Essa ' + item.ticketnumber + ' está na sua fila...'} target="_blank" rel="noopener noreffer">{item.owninguser.fullname}</a>
+                                    }
                                 </td>
                                 <td>
                                     <a className="text-decoration-none" href={URL_CL + item._customerid_value} target="_blank" rel="noopener noreferrer">
-                                        {item.customerid_account ? item.customerid_account.name : item._customerid_value}
+                                        {item.customerid_account.name}
                                     </a>
                                 </td>
                                 <td>{MAPA_SLA[item.regarding_new_atribuicaoeescalacao.new_prioritycodesla]}</td>
@@ -124,25 +95,6 @@ function Tabela({ titulo, dados, extraClass = "" }) {
                     </tbody>
                 </table>
                 {dados.map((item, i) => (
-                    // <div key={i} className="modal fade" id={`${item.ticketnumber}-modal`} tabIndex="-1" aria-labelledby="modal" aria-hidden="true">
-                    //     <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-                    //         <div className="modal-content">
-                    //             <div className="modal-header">
-                    //                 <h1 className="modal-title fs-5">{item.ticketnumber} | {item.title}</h1>
-                    //                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    //             </div>
-                    //             <div className="modal-body text-start">
-                    //                 <h6 className="text-primary-emphasis text-end">Tempo restante: {timer(item.failuretime)}</h6>
-                    //                 {String(item.description).split(/\n/gi).map((item, i) => (
-                    //                     <p key={i}>{item}</p>
-                    //                 ))}
-                    //             </div>
-                    //             <div className="modal-footer">
-                    //                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    //             </div>
-                    //         </div>
-                    //     </div>
-                    // </div>
                     <ModalOC key={i} item={item} index={i} type={'es'} />
                 ))}
             </div>

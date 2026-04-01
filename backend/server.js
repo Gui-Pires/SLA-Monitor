@@ -60,8 +60,8 @@ app.get('/api/sla-data', async (req, res) => {
     try {
         const token = await getDynamicsToken()
         const headers = { 
-            Authorization: `Bearer ${token}`,
-            'Prefer': 'odata.include-annotations="*"'
+            Authorization: `Bearer ${token}`
+            // 'Prefer': 'odata.include-annotations="*"'
         }
 
         // As mesmas consultas que estavam no front, agora protegidas aqui
