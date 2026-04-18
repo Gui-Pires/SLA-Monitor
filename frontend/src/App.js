@@ -70,7 +70,7 @@ function App() {
     const getData = async () => {
         try {
             // Chamada única para o seu novo endpoint protegido
-            const response = await axios.get('http://127.0.0.1:3001/api/sla-data')
+            const response = await axios.get('http://noteadd1150:3001/api/sla-data')
             const { atendimentoGeral, agendados, todosAtivos, slaKpis } = response.data
 
             // Não atribuídas + atribuídas
